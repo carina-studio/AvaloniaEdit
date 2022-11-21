@@ -71,8 +71,8 @@ namespace AvaloniaEdit.Editing
                     Key.Back)); // make Shift-Backspace do the same as plain backspace
             AddBinding(EditingCommands.DeletePreviousWord, KeyModifiers.Control, Key.Back,
                 OnDelete(CaretMovementType.WordLeft));
-            AddBinding(EditingCommands.EnterParagraphBreak, KeyModifiers.None, Key.Enter, OnEnter);
-            AddBinding(EditingCommands.EnterLineBreak, KeyModifiers.Shift, Key.Enter, OnEnter);
+            //AddBinding(EditingCommands.EnterParagraphBreak, KeyModifiers.None, Key.Enter, OnEnter);
+            //AddBinding(EditingCommands.EnterLineBreak, KeyModifiers.Shift, Key.Enter, OnEnter);
             AddBinding(EditingCommands.TabForward, KeyModifiers.None, Key.Tab, OnTab);
             AddBinding(EditingCommands.TabBackward, KeyModifiers.Shift, Key.Tab, OnShiftTab);
 

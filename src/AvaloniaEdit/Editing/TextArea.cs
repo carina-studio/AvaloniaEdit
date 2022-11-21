@@ -57,6 +57,8 @@ namespace AvaloniaEdit.Editing
 
         private readonly TextAreaTextInputMethodClient _imClient = new TextAreaTextInputMethodClient();
 
+        private bool _textChangedAfterKeyDown;
+
         #region Constructor
         static TextArea()
         {
@@ -818,6 +820,7 @@ namespace AvaloniaEdit.Editing
                 }
                 HideMouseCursor();
                 PerformTextInput(e);
+                _textChangedAfterKeyDown = true;
                 e.Handled = true;
             }
         }
@@ -949,7 +952,21 @@ namespace AvaloniaEdit.Editing
         /// <inheritdoc/>
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            _textChangedAfterKeyDown = false;
+
             base.OnKeyDown(e);
+
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (e.Key == Key.Enter)
+                {
+                    if (_textChangedAfterKeyDown)
+                        _textChangedAfterKeyDown = false;
+                    else
+                        this.PerformTextInput("\n");
+                }
+            }, DispatcherPriority.Input);
+
             TextView.InvalidateCursorIfPointerWithinTextView();
         }
 
