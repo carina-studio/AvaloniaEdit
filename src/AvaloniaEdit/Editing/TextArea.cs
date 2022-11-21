@@ -57,6 +57,11 @@ namespace AvaloniaEdit.Editing
 
         private readonly TextAreaTextInputMethodClient _imClient = new TextAreaTextInputMethodClient();
 
+        private bool _isPreediting;
+        private bool _isUpdatingPreeditText;
+        private TextViewPosition _preeditingStart;
+        private TextViewPosition _preeditingEnd;
+        private Selection _selectionToReset;
         private bool _textChangedAfterKeyDown;
 
         #region Constructor
@@ -108,6 +113,7 @@ namespace AvaloniaEdit.Editing
             Caret = new Caret(this);
             Caret.PositionChanged += (sender, e) => RequestSelectionValidation();
             Caret.PositionChanged += CaretPositionChanged;
+            SelectionChanged += OnSelectionChanged;
             AttachTypingEvents();
 
             LeftMargins.CollectionChanged += LeftMargins_CollectionChanged;
@@ -153,6 +159,51 @@ namespace AvaloniaEdit.Editing
                 nameof(IScrollable.Offset),
                 o => (o as IScrollable).Offset,
                 (o, v) => (o as IScrollable).Offset = v);
+        
+        #region Preediting
+
+        private void ResetPreeditState()
+        {
+            if (_isPreediting)
+            {
+                _isPreediting = false;
+                (this.VisualRoot as ITextInputMethodRoot)?.InputMethod?.Reset();
+            }
+        }
+
+        void SetPreeditText(string text)
+        {
+            Debug.WriteLine($"SetPreeditText: {text}");
+
+            // stop preediting
+            _isUpdatingPreeditText = true;
+            if (string.IsNullOrEmpty(text))
+            {
+                if (_isPreediting)
+                {
+                    this.Selection = Selection.Create(this, _preeditingStart, _preeditingEnd);
+                    this.RemoveSelectedText();
+                    this.ResetPreeditState();
+                }
+                _isUpdatingPreeditText = false;
+                return;
+            }
+
+            // start or update preediting
+            if (!_isPreediting)
+            {
+                this.RemoveSelectedText();
+                _preeditingStart = this.Caret.Position;
+                _preeditingEnd = _preeditingStart;
+                _isPreediting = true;
+            }
+            this.Selection = Selection.Create(this, _preeditingStart, _preeditingEnd);
+            this.ReplaceSelectionWithText(text);
+            _preeditingEnd = new(_preeditingStart.Line, _preeditingStart.Column + text.Length, _preeditingStart.Column + text.Length);
+            _isUpdatingPreeditText = false;
+        }
+
+        #endregion
 
         #region InputHandler management
         /// <summary>
@@ -679,6 +730,13 @@ namespace AvaloniaEdit.Editing
         {
             if (TextView == null)
                 return;
+            
+            if (_isPreediting && !_isUpdatingPreeditText)
+            {
+                var selection = this.Selection;
+                this.SetPreeditText(null);
+                _selectionToReset = selection;
+            }
 
             TextView.HighlightedLine = Caret.Line;
 
@@ -688,6 +746,16 @@ namespace AvaloniaEdit.Editing
             {
                 (this as ILogicalScrollable).RaiseScrollInvalidated(EventArgs.Empty);
             });
+        }
+
+        private void OnSelectionChanged(object sender, EventArgs e)
+        {
+            var selectionToReset = _selectionToReset;
+            if (_selectionToReset != null)
+            {
+                _selectionToReset = null;
+                this.Selection = selectionToReset;
+            }
         }
 
         public static readonly DirectProperty<TextArea, ObservableCollection<IControl>> LeftMarginsProperty
@@ -768,6 +836,8 @@ namespace AvaloniaEdit.Editing
             Caret.Hide();
 
             _imClient.SetTextArea(null);
+
+            this.ResetPreeditState();
         }
         #endregion
 
@@ -1187,7 +1257,7 @@ namespace AvaloniaEdit.Editing
 
             public IVisual TextViewVisual => _textArea;
 
-            public bool SupportsPreedit => false;
+            public bool SupportsPreedit => true;
 
             public bool SupportsSurroundingText => true;
 
@@ -1219,6 +1289,9 @@ namespace AvaloniaEdit.Editing
 
             public void SetTextArea(TextArea textArea)
             {
+                if (_textArea == textArea)
+                    return;
+                
                 if(_textArea != null)
                 {
                     _textArea.Caret.PositionChanged -= Caret_PositionChanged;
@@ -1264,7 +1337,7 @@ namespace AvaloniaEdit.Editing
 
             public void SetPreeditText(string text)
             {
-              
+                _textArea?.SetPreeditText(text);
             }
         }
     }
