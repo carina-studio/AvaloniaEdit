@@ -63,6 +63,11 @@ namespace AvaloniaEdit.Rendering
             OptionsProperty.Changed.Subscribe(OnOptionsChanged);
 
             DocumentProperty.Changed.Subscribe(OnDocumentChanged);
+            
+            AffectsMeasure<TextView>(
+                AdditionalHorizontalScrollAmountProperty,
+                AdditionalVerticalScrollAmountProperty
+            );
         }
 
         private readonly ColumnRulerRenderer _columnRulerRenderer;
@@ -858,11 +863,37 @@ namespace AvaloniaEdit.Rendering
         #endregion
 
         #region Measure
+
         /// <summary>
-        /// Additonal amount that allows horizontal scrolling past the end of the longest line.
+        /// AdditionalHorizontalScrollAmount dependency property.
+        /// </summary>
+        public static readonly StyledProperty<double> AdditionalHorizontalScrollAmountProperty =
+            AvaloniaProperty.Register<TextView, double>(nameof(AdditionalHorizontalScrollAmount), 3);
+        
+        /// <summary>
+        /// AdditionalVerticalScrollAmount dependency property.
+        /// </summary>
+        public static readonly StyledProperty<double> AdditionalVerticalScrollAmountProperty =
+            AvaloniaProperty.Register<TextView, double>(nameof(AdditionalVerticalScrollAmount));
+
+        /// <summary>
+        /// Additional amount that allows horizontal scrolling past the end of the longest line.
         /// This is necessary to ensure the caret always is visible, even when it is at the end of the longest line.
         /// </summary>
-        private const double AdditionalHorizontalScrollAmount = 3;
+        public double AdditionalHorizontalScrollAmount
+        {
+            get => this.GetValue(AdditionalHorizontalScrollAmountProperty);
+            set => this.SetValue(AdditionalHorizontalScrollAmountProperty, value);
+        }
+        
+        /// <summary>
+        /// Additional amount that allows vertical scrolling.
+        /// </summary>
+        public double AdditionalVerticalScrollAmount
+        {
+            get => this.GetValue(AdditionalVerticalScrollAmountProperty);
+            set => this.SetValue(AdditionalVerticalScrollAmountProperty, value);
+        }
 
         private Size _lastAvailableSize;
         private bool _inMeasure;
@@ -935,7 +966,7 @@ namespace AvaloniaEdit.Rendering
             TextLayer.SetVisualLines(_visibleVisualLines);
 
             SetScrollData(availableSize,
-                          new Size(maxWidth, heightTreeHeight + extraHeightToAllowScrollBelowDocument),
+                          new Size(maxWidth, heightTreeHeight + extraHeightToAllowScrollBelowDocument + AdditionalVerticalScrollAmount),
                           _scrollOffset);
 
             VisualLinesChanged?.Invoke(this, EventArgs.Empty);
