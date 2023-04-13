@@ -1,6 +1,6 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:AvalonEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
-        xmlns:Editing="clr-namespace:AvaloniaEdit.Editing;assembly=AvaloniaEdit">
+        xmlns:AvalonEdit="using:AvaloniaEdit"
+        xmlns:Editing="using:AvaloniaEdit.Editing">
     <Style Selector="AvalonEdit|TextEditor">
         <Setter Property="Template">
             <ControlTemplate>

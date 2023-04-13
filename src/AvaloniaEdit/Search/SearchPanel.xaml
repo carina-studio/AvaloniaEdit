@@ -1,7 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:ae="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
-        xmlns:search="clr-namespace:AvaloniaEdit.Search;assembly=AvaloniaEdit">
+        xmlns:ae="using:AvaloniaEdit"
+        xmlns:search="using:AvaloniaEdit.Search">
   
     <Style Selector="search|SearchPanel ToggleButton.ExpanderToggle">
         <Setter Property="Template">
@@ -87,7 +87,7 @@
                                     <Image Width="16"
                          Height="16"
                          Stretch="Fill"
-                         Source="resm:AvaloniaEdit.Search.Assets.FindPrevious.png?assembly=AvaloniaEdit" />
+                         Source="resm:AvaloniaEdit.Search.Assets.FindPrevious.png?assembly=CarinaStudio.AvaloniaEdit" />
                                 </Button>
                                 <Button Margin="3"
                         Height="24"
@@ -99,7 +99,7 @@
                                     <Image Width="16"
                          Height="16"
                          Stretch="Fill"
-                         Source="resm:AvaloniaEdit.Search.Assets.FindNext.png?assembly=AvaloniaEdit" />
+                         Source="resm:AvaloniaEdit.Search.Assets.FindNext.png?assembly=CarinaStudio.AvaloniaEdit" />
                                 </Button>
                                 <Button Height="16" Background="Transparent" BorderThickness="0"
                         Width="16"
@@ -137,7 +137,7 @@
                                     <Image Width="16"
                          Height="16"
                          Stretch="Fill"
-                         Source="resm:AvaloniaEdit.Search.Assets.ReplaceNext.png?assembly=AvaloniaEdit" />
+                         Source="resm:AvaloniaEdit.Search.Assets.ReplaceNext.png?assembly=CarinaStudio.AvaloniaEdit" />
                                 </Button>
                                 <Button Margin="3"
                         Height="24"
@@ -149,7 +149,7 @@
                                     <Image Width="16"
                          Height="16"
                          Stretch="Fill"
-                         Source="resm:AvaloniaEdit.Search.Assets.ReplaceAll.png?assembly=AvaloniaEdit" />
+                         Source="resm:AvaloniaEdit.Search.Assets.ReplaceAll.png?assembly=CarinaStudio.AvaloniaEdit" />
                                 </Button>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
@@ -159,7 +159,7 @@
                                     <Image Width="16"
                          Height="16"
                          Stretch="Fill"
-                         Source="resm:AvaloniaEdit.Search.Assets.CaseSensitive.png?assembly=AvaloniaEdit" />
+                         Source="resm:AvaloniaEdit.Search.Assets.CaseSensitive.png?assembly=CarinaStudio.AvaloniaEdit" />
                                 </ToggleButton>
                                 <ToggleButton IsChecked="{Binding WholeWords, RelativeSource={RelativeSource TemplatedParent}}" ToolTip.Tip="{x:Static ae:SR.SearchMatchWholeWordsText}" Margin="3"
                         Height="24"
@@ -167,7 +167,7 @@
                                     <Image Width="16"
                          Height="16"
                          Stretch="Fill"
-                         Source="resm:AvaloniaEdit.Search.Assets.CompleteWord.png?assembly=AvaloniaEdit" />
+                         Source="resm:AvaloniaEdit.Search.Assets.CompleteWord.png?assembly=CarinaStudio.AvaloniaEdit" />
                                 </ToggleButton>
                                 <ToggleButton IsChecked="{Binding UseRegex, RelativeSource={RelativeSource TemplatedParent}}" ToolTip.Tip="{x:Static ae:SR.SearchUseRegexText}" Margin="3"
                         Height="24"
@@ -175,7 +175,7 @@
                                     <Image Width="16"
                          Height="16"
                          Stretch="Fill"
-                         Source="resm:AvaloniaEdit.Search.Assets.RegularExpression.png?assembly=AvaloniaEdit" />
+                         Source="resm:AvaloniaEdit.Search.Assets.RegularExpression.png?assembly=CarinaStudio.AvaloniaEdit" />
                                 </ToggleButton>
                             </StackPanel>
                         </StackPanel>

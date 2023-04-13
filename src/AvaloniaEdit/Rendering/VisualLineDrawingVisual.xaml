@@ -1,5 +1,5 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:Rendering="clr-namespace:AvaloniaEdit.Rendering;assembly=AvaloniaEdit">
+        xmlns:Rendering="using:AvaloniaEdit.Rendering">
   <Style Selector="Rendering|VisualLineDrawingVisual">
     <Setter Property="Cursor" Value="{Binding $parent.Cursor}"/>
   </Style>

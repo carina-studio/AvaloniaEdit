@@ -1,5 +1,5 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:cc="clr-namespace:AvaloniaEdit.CodeCompletion;assembly=AvaloniaEdit">
+        xmlns:cc="using:AvaloniaEdit.CodeCompletion">
 
     <Style Selector="cc|CompletionList">
         <Setter Property="Template">

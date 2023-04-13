@@ -1,6 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:cc="clr-namespace:AvaloniaEdit.CodeCompletion;assembly=AvaloniaEdit">
+        xmlns:cc="using:AvaloniaEdit.CodeCompletion">
 
     <Style Selector="cc|OverloadViewer">
         <Setter Property="BorderThickness"
