@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageVersion>11.0.0.1121-preview</PackageVersion>
+    <PackageVersion>11.0.2.412-preview</PackageVersion>
     <WarningsNotAsErrors>0612,0618</WarningsNotAsErrors>
-	  <PackageId>CarinaStudio.AvaloniaEdit</PackageId>
+	<PackageId>CarinaStudio.AvaloniaEdit</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/carina-studio/AvaloniaEdit/</PackageProjectUrl>
   </PropertyGroup>
