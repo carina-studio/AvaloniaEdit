@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using Avalonia;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
@@ -10,6 +9,8 @@ namespace AvaloniaEdit
 {
     public class RoutedCommand : ICommand
     {
+        private static IInputElement _inputElement;
+
         public string Name { get; }
         public KeyGesture Gesture { get; }
 
@@ -21,22 +22,35 @@ namespace AvaloniaEdit
 
         static RoutedCommand()
         {
-            CanExecuteEvent.AddClassHandler<IRoutedCommandBindable>(CanExecuteEventHandler);
-            ExecutedEvent.AddClassHandler<IRoutedCommandBindable>(ExecutedEventHandler);
+            CanExecuteEvent.AddClassHandler<Interactive>(CanExecuteEventHandler);
+            ExecutedEvent.AddClassHandler<Interactive>(ExecutedEventHandler);
+            InputElement.GotFocusEvent.AddClassHandler<Interactive>(GotFocusEventHandler);
         }
 
-        private static void CanExecuteEventHandler(IRoutedCommandBindable control, CanExecuteRoutedEventArgs args)
+        private static void CanExecuteEventHandler(Interactive control, CanExecuteRoutedEventArgs args)
         {
-            var binding = control.CommandBindings.Where(c => c != null)
-                .FirstOrDefault(c => c.Command == args.Command && c.DoCanExecute(control, args));
-            args.CanExecute = binding != null;
+            if (control is IRoutedCommandBindable bindable)
+            {
+                var binding = bindable.CommandBindings.Where(c => c != null)
+               .FirstOrDefault(c => c.Command == args.Command && c.DoCanExecute(control, args));
+                args.CanExecute = binding != null;
+            }
         }
 
-        private static void ExecutedEventHandler(IRoutedCommandBindable control, ExecutedRoutedEventArgs args)
+        private static void ExecutedEventHandler(Interactive control, ExecutedRoutedEventArgs args)
         {
-            // ReSharper disable once UnusedVariable
-            var binding = control.CommandBindings.Where(c => c != null)
-                .FirstOrDefault(c => c.Command == args.Command && c.DoExecuted(control, args));
+            if (control is IRoutedCommandBindable bindable)
+            {
+                // ReSharper disable once UnusedVariable
+                var binding = bindable.CommandBindings.Where(c => c != null)
+                    .FirstOrDefault(c => c.Command == args.Command && c.DoExecuted(control, args));
+
+            }
+        }
+
+        private static void GotFocusEventHandler(Interactive control, GotFocusEventArgs args)
+        {
+            _inputElement = control as IInputElement;
         }
 
         public static RoutedEvent<CanExecuteRoutedEventArgs> CanExecuteEvent { get; } = RoutedEvent.Register<CanExecuteRoutedEventArgs>(nameof(CanExecuteEvent), RoutingStrategies.Bubble, typeof(RoutedCommand));
@@ -53,7 +67,7 @@ namespace AvaloniaEdit
 
         bool ICommand.CanExecute(object parameter)
         {
-            return CanExecute(parameter, Application.Current.FocusManager.Current);
+            return CanExecute(parameter, _inputElement);
         }
 
         public static RoutedEvent<ExecutedRoutedEventArgs> ExecutedEvent { get; } = RoutedEvent.Register<ExecutedRoutedEventArgs>(nameof(ExecutedEvent), RoutingStrategies.Bubble, typeof(RoutedCommand));
@@ -68,7 +82,7 @@ namespace AvaloniaEdit
 
         void ICommand.Execute(object parameter)
         {
-            Execute(parameter, Application.Current.FocusManager.Current);
+            Execute(parameter, _inputElement);
         }
 
         // TODO
@@ -79,7 +93,7 @@ namespace AvaloniaEdit
         }
     }
 
-    public interface IRoutedCommandBindable : IInteractive
+    public interface IRoutedCommandBindable
     {
         IList<RoutedCommandBinding> CommandBindings { get; }
     }

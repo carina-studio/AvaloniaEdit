@@ -135,7 +135,7 @@ namespace AvaloniaEdit.Rendering
         /// <summary>
         /// Occurs when the document property has changed.
         /// </summary>
-        public event EventHandler DocumentChanged;
+        public event EventHandler<DocumentChangedEventArgs> DocumentChanged;
 
         private static void OnDocumentChanged(AvaloniaPropertyChangedEventArgs e)
         {
@@ -164,7 +164,7 @@ namespace AvaloniaEdit.Rendering
                 CachedElements = new TextViewCachedElements();
             }
             InvalidateMeasure();
-            DocumentChanged?.Invoke(this, EventArgs.Empty);
+            DocumentChanged?.Invoke(this, new DocumentChangedEventArgs(oldValue, newValue));
         }
 
         private void RecreateCachedElements()
@@ -1238,7 +1238,7 @@ namespace AvaloniaEdit.Rendering
                                 Debug.WriteLine(distance);
                             }
 
-                            offset += span.TextSourceLength;
+                            offset += span.Length;
                         }
                         pos = new Point(pos.X, pos.Y + textLine.Height);
                     }
@@ -1982,9 +1982,9 @@ namespace AvaloniaEdit.Rendering
             return pen;
         }
 
-        bool ILogicalScrollable.BringIntoView(IControl target, Rect rectangle)
+        bool ILogicalScrollable.BringIntoView(Control target, Rect rectangle)
         {
-            if (rectangle.IsEmpty || target == null || target == this || !this.IsVisualAncestorOf(target))
+            if (rectangle == default || target == null || target == this || !this.IsVisualAncestorOf(target))
             {
                 return false;
             }
@@ -1999,7 +1999,7 @@ namespace AvaloniaEdit.Rendering
             return true;
         }
 
-        IControl ILogicalScrollable.GetControlInDirection(NavigationDirection direction, IControl from)
+        Control ILogicalScrollable.GetControlInDirection(NavigationDirection direction, Control from)
         {
             return null;
         }

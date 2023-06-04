@@ -3,8 +3,8 @@
              xmlns:cc="using:AvaloniaEdit.CodeCompletion"
              x:Class="AvaloniaEdit.Demo.App">
   <Application.Styles>
-    <FluentTheme Mode="Dark" />
-    <StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml" />
+    <FluentTheme />
+    <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
 
     <!--Code completion-->
     <Style Selector="cc|CompletionList">
@@ -12,7 +12,7 @@
         <ControlTemplate>
           <cc:CompletionListBox Name="PART_ListBox" Background="Gray" BorderThickness="1" BorderBrush="LightGray" >
             <cc:CompletionListBox.ItemTemplate>
-              <DataTemplate>
+              <DataTemplate x:DataType="cc:ICompletionData">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="18">
                   <Image Source="{Binding Image}"
                          Width="15"

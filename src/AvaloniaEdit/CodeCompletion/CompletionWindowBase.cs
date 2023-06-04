@@ -86,7 +86,7 @@ namespace AvaloniaEdit.CodeCompletion
             StartOffset = EndOffset = TextArea.Caret.Offset;
 
             PlacementTarget = TextArea.TextView;
-            PlacementMode = PlacementMode.AnchorAndGravity;
+            Placement = PlacementMode.AnchorAndGravity;
             PlacementAnchor = Avalonia.Controls.Primitives.PopupPositioning.PopupAnchor.TopLeft;
             PlacementGravity = Avalonia.Controls.Primitives.PopupPositioning.PopupGravity.BottomRight;
 
@@ -217,20 +217,16 @@ namespace AvaloniaEdit.CodeCompletion
                 // prevents crash when typing deadchar while CC window is open
                 if (e.Key == Key.DeadCharProcessed)
                     return;
-                var keyEventArgs = (KeyEventArgs)Activator.CreateInstance(typeof(KeyEventArgs), true);
-                keyEventArgs.Device = e.Device;
-                keyEventArgs.Key = e.Key;
-                e.Handled = RaiseEventPair(Window, null, KeyDownEvent, keyEventArgs);
+                e.Handled = RaiseEventPair(Window, null, KeyDownEvent,
+                                           new KeyEventArgs { Key = e.Key });
             }
 
             public override void OnPreviewKeyUp(KeyEventArgs e)
             {
                 if (e.Key == Key.DeadCharProcessed)
                     return;
-                var keyEventArgs = (KeyEventArgs)Activator.CreateInstance(typeof(KeyEventArgs), true);
-                keyEventArgs.Device = e.Device;
-                keyEventArgs.Key = e.Key;
-                e.Handled = RaiseEventPair(Window, null, KeyUpEvent, keyEventArgs);
+                e.Handled = RaiseEventPair(Window, null, KeyUpEvent,
+                    new KeyEventArgs { Key = e.Key });
             }
         }
         #endregion

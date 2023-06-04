@@ -62,7 +62,7 @@ namespace AvaloniaEdit.CodeCompletion
             {
                 IsLightDismissEnabled = true,
                 PlacementTarget = this,
-                PlacementMode = PlacementMode.Right,
+                Placement = PlacementMode.Right,
                 Child = _toolTipContent,
             };
 
@@ -173,10 +173,8 @@ namespace AvaloniaEdit.CodeCompletion
 
         private void TextArea_PreviewTextInput(object sender, TextInputEventArgs e)
         {
-            var textInputEventArgs = (TextInputEventArgs)Activator.CreateInstance(typeof(TextInputEventArgs), true);
-            textInputEventArgs.Device = e.Device;
-            textInputEventArgs.Text = e.Text;
-            e.Handled = RaiseEventPair(this, null, TextInputEvent, textInputEventArgs);
+            e.Handled = RaiseEventPair(this, null, TextInputEvent,
+                                       new TextInputEventArgs { Text = e.Text });
         }
 
         private void TextArea_MouseWheel(object sender, PointerWheelEventArgs e)

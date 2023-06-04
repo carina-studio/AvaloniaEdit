@@ -61,6 +61,7 @@ namespace AvaloniaEdit
             LineNumbersForegroundProperty.Changed.Subscribe(OnLineNumbersForegroundChanged);
             FontFamilyProperty.Changed.Subscribe(OnFontFamilyPropertyChanged);
             FontSizeProperty.Changed.Subscribe(OnFontSizePropertyChanged);
+            SearchResultsBrushProperty.Changed.Subscribe(SearchResultsBrushChangedCallback);
         }
 
         /// <summary>
@@ -119,12 +120,12 @@ namespace AvaloniaEdit
         /// <summary>
         /// Occurs when the document property has changed.
         /// </summary>
-        public event EventHandler DocumentChanged;
+        public event EventHandler<DocumentChangedEventArgs> DocumentChanged;
 
         /// <summary>
         /// Raises the <see cref="DocumentChanged"/> event.
         /// </summary>
-        protected virtual void OnDocumentChanged(EventArgs e)
+        protected virtual void OnDocumentChanged(DocumentChangedEventArgs e)
         {
             DocumentChanged?.Invoke(this, e);
         }
@@ -147,7 +148,7 @@ namespace AvaloniaEdit
                 TextDocumentWeakEventManager.TextChanged.AddHandler(newValue, OnTextChanged);
                 PropertyChangedWeakEventManager.AddHandler(newValue.UndoStack, OnUndoStackPropertyChangedHandler);
             }
-            OnDocumentChanged(EventArgs.Empty);
+            OnDocumentChanged(new DocumentChangedEventArgs(oldValue, newValue));
             OnTextChanged(EventArgs.Empty);
         }
         #endregion
@@ -435,10 +436,15 @@ namespace AvaloniaEdit
         {
             if (e.Sender is TextEditor editor)
             {
-                if ((bool)e.NewValue)
-                    editor.TextArea.ReadOnlySectionProvider = ReadOnlySectionDocument.Instance;
-                else
-                    editor.TextArea.ReadOnlySectionProvider = NoReadOnlySections.Instance;
+                bool isReadonly = e.GetNewValue<bool>();
+
+                editor.TextArea.ReadOnlySectionProvider = isReadonly ?
+                    ReadOnlySectionDocument.Instance :
+                    NoReadOnlySections.Instance;
+
+                if (editor.SearchPanel != null)
+                    editor.SearchPanel.IsReplaceMode = isReadonly ?
+                        false : editor.SearchPanel.IsReplaceMode;
             }
         }
         #endregion
@@ -505,6 +511,21 @@ namespace AvaloniaEdit
         {
             get => GetValue(ShowLineNumbersProperty);
             set => SetValue(ShowLineNumbersProperty, value);
+        }
+
+        /// <summary>
+        /// Dependency property for <see cref="SearchResultsBrush"/>.
+        /// </summary>
+        public static readonly StyledProperty<IBrush> SearchResultsBrushProperty =
+            AvaloniaProperty.Register<TextEditor, IBrush>(nameof(SearchResultsBrush), new SolidColorBrush(Color.FromRgb(81, 92, 106)));
+
+        /// <summary>
+        /// Gets/sets the Brush used for marking search results in the TextView.
+        /// </summary>
+        public IBrush SearchResultsBrush
+        {
+            get => GetValue(SearchResultsBrushProperty);
+            set => SetValue(SearchResultsBrushProperty, value);
         }
 
         private static void OnShowLineNumbersChanged(AvaloniaPropertyChangedEventArgs e)
@@ -577,6 +598,13 @@ namespace AvaloniaEdit
             var editor = e.Sender as TextEditor;
 
             editor?.TextArea.TextView.SetValue(FontSizeProperty, e.NewValue);
+        }
+
+        private static void SearchResultsBrushChangedCallback(AvaloniaPropertyChangedEventArgs e)
+        {
+            var editor = e.Sender as TextEditor;
+
+            editor?.SearchPanel?.SetSearchResultsBrush(e.GetNewValue<IBrush>());
         }
 
         #endregion

@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageVersion>11.0.0.1121-preview</PackageVersion>
-    <LangVersion>latest</LangVersion>
-    <PackageId>CarinaStudio.AvaloniaEdit.TextMateSharp</PackageId>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/carina-studio/AvaloniaEdit/</PackageProjectUrl>
+      <TargetFramework>netstandard2.0</TargetFramework>
+      <PackageVersion>11.0.0.1121-preview</PackageVersion>
+      <LangVersion>latest</LangVersion>
+      <PackageId>CarinaStudio.AvaloniaEdit.TextMateSharp</PackageId>
+      <PackageLicenseExpression>MIT</PackageLicenseExpression>
+      <PackageProjectUrl>https://github.com/carina-studio/AvaloniaEdit/</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
