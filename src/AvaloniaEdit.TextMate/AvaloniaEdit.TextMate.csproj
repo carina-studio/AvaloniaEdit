@@ -2,7 +2,7 @@
 
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
-      <PackageVersion>11.0.0.1121-preview</PackageVersion>
+      <PackageVersion>11.0.3.604-rc1.1</PackageVersion>
       <LangVersion>latest</LangVersion>
       <PackageId>CarinaStudio.AvaloniaEdit.TextMateSharp</PackageId>
       <PackageLicenseExpression>MIT</PackageLicenseExpression>

@@ -166,7 +166,7 @@ namespace AvaloniaEdit.Editing
             if (_isPreediting)
             {
                 _isPreediting = false;
-                (this.VisualRoot as ITextInputMethodRoot)?.InputMethod?.Reset();
+                //(this.VisualRoot as ITextInputMethodRoot)?.InputMethod?.Reset();
             }
         }
 
@@ -901,9 +901,7 @@ namespace AvaloniaEdit.Editing
         /// </summary>
         public void PerformTextInput(string text)
         {
-            var e = (TextInputEventArgs)Activator.CreateInstance(typeof(TextInputEventArgs), true);
-            e.Text = text;
-            e.RoutedEvent = TextInputEvent;
+            var e = new TextInputEventArgs { RoutedEvent = TextInputEvent, Text = text };
             PerformTextInput(e);
         }
 
