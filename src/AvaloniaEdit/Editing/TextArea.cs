@@ -1023,16 +1023,34 @@ namespace AvaloniaEdit.Editing
 
             base.OnKeyDown(e);
 
-            Dispatcher.UIThread.Post(() =>
+            switch (e.Key)
             {
-                if (e.Key == Key.Enter)
-                {
-                    if (_textChangedAfterKeyDown)
-                        _textChangedAfterKeyDown = false;
-                    else
-                        this.PerformTextInput("\n");
-                }
-            }, DispatcherPriority.Input);
+                case Key.Enter:
+                    Dispatcher.UIThread.Post(() =>
+                    {
+                        if (_textChangedAfterKeyDown)
+                            _textChangedAfterKeyDown = false;
+                        else
+                            this.PerformTextInput("\n");
+                    }, DispatcherPriority.Input);
+                    break;
+
+                case Key.Left:
+                case Key.Right:
+                case Key.Up:
+                case Key.Down:
+                    if (_isPreediting)
+                    {
+                        if (_selection.StartPosition.Line != _preeditingStart.Line 
+                            || _selection.EndPosition.Line != _preeditingEnd.Line
+                            || _selection.StartPosition.Column < _preeditingStart.Column
+                            || _selection.EndPosition.Column > _preeditingEnd.Column)
+                        {
+                            e.Handled = true;
+                        }
+                    }
+                    break;
+            }
 
             TextView.InvalidateCursorIfPointerWithinTextView();
         }
@@ -1275,7 +1293,7 @@ namespace AvaloniaEdit.Editing
 
             public override TextSelection Selection
             {
-                get => new TextSelection(_textArea.Caret.Position.Column, _textArea.Caret.Position.Column + _textArea.Selection.Length);
+                get => _textArea is not null ? new(_textArea.Caret.Position.Column, _textArea.Caret.Position.Column + _textArea.Selection.Length) : new();
                 set
                 {
                     var selection = _textArea.Selection;
@@ -1320,20 +1338,6 @@ namespace AvaloniaEdit.Editing
             public override void SetPreeditText(string text)
             {
                 _textArea?.SetPreeditText(text);
-            }
-
-            public void SelectInSurroundingText(int start, int end)
-            {
-                if(_textArea == null)
-                {
-                    return;
-                }
-
-                var selection = _textArea.Selection;
-
-                _textArea.Selection = _textArea.Selection.StartSelectionOrSetEndpoint(
-                    new TextViewPosition(selection.StartPosition.Line, start), 
-                    new TextViewPosition(selection.StartPosition.Line, end));
             }
         }
     }
