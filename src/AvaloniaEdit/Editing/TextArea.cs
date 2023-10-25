@@ -172,7 +172,7 @@ namespace AvaloniaEdit.Editing
 
         void SetPreeditText(string text)
         {
-            Debug.WriteLine($"SetPreeditText: {text}");
+            Debug.WriteLine($"SetPreeditText: '{text}'");
 
             // stop preediting
             _isUpdatingPreeditText = true;
@@ -180,6 +180,7 @@ namespace AvaloniaEdit.Editing
             {
                 if (_isPreediting)
                 {
+                    Debug.WriteLine($"Clear preedit text in [{_preeditingStart.Column}, {_preeditingEnd.Column})");
                     this.Selection = Selection.Create(this, _preeditingStart, _preeditingEnd);
                     this.RemoveSelectedText();
                     this.ResetPreeditState();
@@ -195,10 +196,13 @@ namespace AvaloniaEdit.Editing
                 _preeditingStart = this.Caret.Position;
                 _preeditingEnd = _preeditingStart;
                 _isPreediting = true;
+                Debug.WriteLine($"Start preediting at {_preeditingStart.Column}");
             }
+            Debug.WriteLine($"Replace preedit text in [{_preeditingStart.Column}, {_preeditingEnd.Column}) with '{text}'");
             this.Selection = Selection.Create(this, _preeditingStart, _preeditingEnd);
             this.ReplaceSelectionWithText(text);
             _preeditingEnd = new(_preeditingStart.Line, _preeditingStart.Column + text.Length, _preeditingStart.Column + text.Length);
+            Debug.WriteLine($"Update preediting range to [{_preeditingStart.Column}, {_preeditingEnd.Column})");
             _isUpdatingPreeditText = false;
         }
 
@@ -871,6 +875,7 @@ namespace AvaloniaEdit.Editing
 
         protected override void OnTextInput(TextInputEventArgs e)
         {
+            Debug.WriteLine($"OnTextInput: '{e.Text}'");
             base.OnTextInput(e);
             if (!e.Handled && Document != null)
             {
@@ -1033,6 +1038,12 @@ namespace AvaloniaEdit.Editing
                         else
                             this.PerformTextInput("\n");
                     }, DispatcherPriority.Input);
+                    break;
+                
+                case Key.Back:
+                case Key.Delete:
+                    if (_isPreediting)
+                        e.Handled = true;
                     break;
 
                 case Key.Left:
