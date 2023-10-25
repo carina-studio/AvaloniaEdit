@@ -39,11 +39,6 @@ namespace AvaloniaEdit.CodeCompletion
     /// </summary>
     public class CompletionWindowBase : Popup
     {
-        static CompletionWindowBase()
-        {
-            //BackgroundProperty.OverrideDefaultValue(typeof(CompletionWindowBase), Brushes.White);           
-        }
-
         protected override Type StyleKeyOverride => typeof(PopupRoot);
 
         /// <summary>
@@ -95,7 +90,7 @@ namespace AvaloniaEdit.CodeCompletion
 
             AttachEvents();
 
-            Initailize();
+            Initialize();
         }
 
         protected virtual void OnClosed()
@@ -103,7 +98,7 @@ namespace AvaloniaEdit.CodeCompletion
             DetachEvents();
         }
 
-        private void Initailize()
+        private void Initialize()
         {
             if (_document != null && StartOffset != TextArea.Caret.Offset)
             {

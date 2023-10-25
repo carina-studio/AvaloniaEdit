@@ -71,7 +71,7 @@ namespace AvaloniaEdit.Rendering
         }
 
         private readonly ColumnRulerRenderer _columnRulerRenderer;
-        private readonly CurrentLineHighlightRenderer _currentLineHighlighRenderer;
+        private readonly CurrentLineHighlightRenderer _currentLineHighlightRenderer;
 
         /// <summary>
         /// Creates a new TextView instance.
@@ -84,8 +84,8 @@ namespace AvaloniaEdit.Rendering
             _elementGenerators = new ObserveAddRemoveCollection<VisualLineElementGenerator>(ElementGenerator_Added, ElementGenerator_Removed);
             _lineTransformers = new ObserveAddRemoveCollection<IVisualLineTransformer>(LineTransformer_Added, LineTransformer_Removed);
             _backgroundRenderers = new ObserveAddRemoveCollection<IBackgroundRenderer>(BackgroundRenderer_Added, BackgroundRenderer_Removed);
+            _currentLineHighlightRenderer = new CurrentLineHighlightRenderer(this);
             _columnRulerRenderer = new ColumnRulerRenderer(this);
-            _currentLineHighlighRenderer = new CurrentLineHighlightRenderer(this);
             Options = new TextEditorOptions();
 
             Debug.Assert(_singleCharacterElementGenerator != null); // assert that the option change created the builtin element generators
@@ -1961,11 +1961,11 @@ namespace AvaloniaEdit.Rendering
             }
             if (change.Property == CurrentLineBorderProperty)
             {
-                _currentLineHighlighRenderer.BorderPen = CurrentLineBorder;
+                _currentLineHighlightRenderer.BorderPen = CurrentLineBorder;
             }
             if (change.Property == CurrentLineBackgroundProperty)
             {
-                _currentLineHighlighRenderer.BackgroundBrush = CurrentLineBackground;
+                _currentLineHighlightRenderer.BackgroundBrush = CurrentLineBackground;
             }
         }
 
@@ -2060,8 +2060,8 @@ namespace AvaloniaEdit.Rendering
         /// </summary>
         public int HighlightedLine
         {
-            get => _currentLineHighlighRenderer.Line;
-            set => _currentLineHighlighRenderer.Line = value;
+            get => _currentLineHighlightRenderer.Line;
+            set => _currentLineHighlightRenderer.Line = value;
         }
 
         /// <summary>
