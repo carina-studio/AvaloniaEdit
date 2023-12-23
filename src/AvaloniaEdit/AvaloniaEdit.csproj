@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <PackageVersion>11.0.6.1025</PackageVersion>
     <WarningsNotAsErrors>0612,0618</WarningsNotAsErrors>
 	<PackageId>CarinaStudio.AvaloniaEdit</PackageId>
+    <PackageDescription>This project is a port of AvalonEdit, a WPF-based text editor for Avalonia.</PackageDescription>
+    <PackageTags>editor;code-editor;avalonia;text-editor;netstandard</PackageTags>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/carina-studio/AvaloniaEdit/</PackageProjectUrl>
   </PropertyGroup>
@@ -17,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="System.Collections.Immutable" Version="1.6.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="1.6.0" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
   </ItemGroup>
 
   <ItemGroup>

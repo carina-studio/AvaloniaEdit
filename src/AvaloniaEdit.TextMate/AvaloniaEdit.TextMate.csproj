@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-      <TargetFramework>netstandard2.0</TargetFramework>
+      <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
       <PackageVersion>11.0.3.604-rc1.1</PackageVersion>
       <LangVersion>latest</LangVersion>
+      <PackageDescription>TextMate integration for AvaloniaEdit.</PackageDescription>
       <PackageId>CarinaStudio.AvaloniaEdit.TextMateSharp</PackageId>
       <PackageLicenseExpression>MIT</PackageLicenseExpression>
       <PackageProjectUrl>https://github.com/carina-studio/AvaloniaEdit/</PackageProjectUrl>
