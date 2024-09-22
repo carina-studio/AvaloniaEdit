@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <RuntimeIdentifiers>win7-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+    <TargetFramework>net9.0</TargetFramework>
     <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
