@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net7.0;net8.0;net9.0</TargetFrameworks>
-    <PackageVersion>11.0.7.114</PackageVersion>
+    <PackageVersion>11.0.8.922</PackageVersion>
     <WarningsNotAsErrors>0612,0618</WarningsNotAsErrors>
 	<PackageId>CarinaStudio.AvaloniaEdit</PackageId>
     <PackageDescription>This project is a port of AvalonEdit, a WPF-based text editor for Avalonia.</PackageDescription>
