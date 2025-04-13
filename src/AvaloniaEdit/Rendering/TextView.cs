@@ -705,6 +705,7 @@ namespace AvaloniaEdit.Rendering
         /// </summary>
         private void ClearVisualLines()
         {
+            _visibleVisualLines = null;
             if (_allVisualLines.Count != 0)
             {
                 foreach (var visualLine in _allVisualLines)
@@ -712,8 +713,6 @@ namespace AvaloniaEdit.Rendering
                     DisposeVisualLine(visualLine);
                 }
                 _allVisualLines.Clear();
-
-                _visibleVisualLines = new ReadOnlyCollection<VisualLine>(_allVisualLines.ToArray());
             }
         }
 
@@ -724,6 +723,7 @@ namespace AvaloniaEdit.Rendering
                 throw new ArgumentException("Cannot dispose visual line because it is in construction!");
             }
 
+            _visibleVisualLines = null;
             visualLine.Dispose();
             RemoveInlineObjects(visualLine);
         }

@@ -57,12 +57,14 @@ namespace AvaloniaEdit.Demo
             _textEditor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
             _textEditor.TextArea.TextEntering += textEditor_TextArea_TextEntering;
             _textEditor.Options.AllowToggleOverstrikeMode = true;
+            _textEditor.Options.EnableTextDragDrop = true;
             _textEditor.Options.ShowBoxForControlCharacters = true;
             _textEditor.Options.ColumnRulerPositions = new List<int>() { 80, 100 };
             _textEditor.TextArea.IndentationStrategy = new Indentation.CSharp.CSharpIndentationStrategy(_textEditor.Options);
             _textEditor.TextArea.Caret.PositionChanged += Caret_PositionChanged;
             _textEditor.TextArea.RightClickMovesCaret = true;
             _textEditor.Options.HighlightCurrentLine = true;
+            _textEditor.Options.CompletionAcceptAction = CompletionAcceptAction.DoubleTapped;
 
             _addControlButton = this.FindControl<Button>("addControlBtn");
             _addControlButton.Click += AddControlButton_Click;
@@ -269,6 +271,7 @@ namespace AvaloniaEdit.Demo
         private void AddControlButton_Click(object sender, RoutedEventArgs e)
         {
             _generator.controls.Add(new Pair(_textEditor.CaretOffset, new Button() { Content = "Click me", Cursor = Cursor.Default }));
+            _generator.controls.Sort(0, _generator.controls.Count, _generator);
             _textEditor.TextArea.TextView.Redraw();
         }
 
