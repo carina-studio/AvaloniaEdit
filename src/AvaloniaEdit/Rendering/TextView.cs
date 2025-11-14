@@ -1054,8 +1054,14 @@ namespace AvaloniaEdit.Rendering
 
         private TextRunProperties CreateGlobalTextRunProperties()
         {
+            var options = this.GetValue(OptionsProperty);
             var p = new GlobalTextRunProperties();
             p.typeface = this.CreateTypeface();
+            p.fontFeatures =
+            [
+                new() { Tag = "calt", Value = options?.EnableContextualAlternatives == true ? 1 : 0 },
+                new() { Tag = "liga", Value = options?.EnableLigatures == true ? 1 : 0 },
+            ];
             p.fontRenderingEmSize = FontSize;
             p.foregroundBrush = GetValue(TextElement.ForegroundProperty);
             ExtensionMethods.CheckIsFrozen(p.foregroundBrush);

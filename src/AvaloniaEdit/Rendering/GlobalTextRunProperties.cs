@@ -27,12 +27,14 @@ namespace AvaloniaEdit.Rendering
 	internal sealed class GlobalTextRunProperties : TextRunProperties
 	{
 		internal Typeface typeface;
+		internal FontFeatureCollection? fontFeatures;
 		internal double fontRenderingEmSize;
 		internal IBrush? foregroundBrush;
 		internal CultureInfo? cultureInfo;
 
 		public override Typeface Typeface => typeface;
-
+		
+		public override FontFeatureCollection? FontFeatures => fontFeatures;
 		public override double FontRenderingEmSize => fontRenderingEmSize;
 
 		//public override double FontHintingEmSize { get { return fontRenderingEmSize; } }

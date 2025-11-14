@@ -36,6 +36,7 @@ namespace AvaloniaEdit.Rendering
 		private BaselineAlignment _baselineAlignment;
 
 		private CultureInfo _cultureInfo;
+		private FontFeatureCollection _fontFeatures;
 		//double fontHintingEmSize;
 		private double _fontRenderingEmSize;
 		private IBrush _foregroundBrush;
@@ -60,6 +61,7 @@ namespace AvaloniaEdit.Rendering
 			_backgroundBrush = textRunProperties.BackgroundBrush;
 			_baselineAlignment = textRunProperties.BaselineAlignment;
 			_cultureInfo = textRunProperties.CultureInfo;
+			_fontFeatures = textRunProperties.FontFeatures;
 			//fontHintingEmSize = textRunProperties.FontHintingEmSize;
 			_fontRenderingEmSize = textRunProperties.FontRenderingEmSize;
 			_foregroundBrush = textRunProperties.ForegroundBrush;
@@ -122,7 +124,10 @@ namespace AvaloniaEdit.Rendering
 		{
 			_cultureInfo = value ?? throw new ArgumentNullException(nameof(value));
 		}
-		
+
+		/// <inheritdoc/>
+		public override FontFeatureCollection FontFeatures => _fontFeatures;
+
 		/*public override double FontHintingEmSize {
 			get { return fontHintingEmSize; }
 		}

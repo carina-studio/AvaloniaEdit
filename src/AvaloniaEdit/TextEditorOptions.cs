@@ -425,6 +425,43 @@ namespace AvaloniaEdit
             }
         }
         #endregion
+        
+        private bool _enableContextualAlternatives = false;
+        private bool _enableLigatures = false;
+
+        /// <summary>
+        /// Gets/Sets whether to enable contextual alternatives in the editor.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool EnableContextualAlternatives
+        {
+            get => _enableContextualAlternatives;
+            set
+            {
+                if (_enableContextualAlternatives != value)
+                {
+                    _enableContextualAlternatives = value;
+                    OnPropertyChanged(nameof(EnableContextualAlternatives));
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Gets/Sets whether to enable ligatures in the editor.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool EnableLigatures
+        {
+            get => _enableLigatures;
+            set
+            {
+                if (_enableLigatures != value)
+                {
+                    _enableLigatures = value;
+                    OnPropertyChanged(nameof(EnableLigatures));
+                }
+            }
+        }
 
         private bool _cutCopyWholeLine = true;
 
