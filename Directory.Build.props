@@ -8,8 +8,8 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
     <Version>12.0.0</Version>
-    <Authors>Avalonia Team</Authors>
-    <Copyright>Copyright 2017-$([System.DateTime]::Now.ToString(`yyyy`)) &#169; The AvaloniaUI Project</Copyright>
+    <Authors>Avalonia Team; Carina Studio</Authors>
+    <Copyright>Copyright 2017-$([System.DateTime]::Now.ToString(`yyyy`)) &#169; The AvaloniaUI Project, &#169;Carina Studio</Copyright>
     <RepositoryUrl>https://github.com/AvaloniaUI/AvaloniaEdit/</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>Icon.png</PackageIcon>
