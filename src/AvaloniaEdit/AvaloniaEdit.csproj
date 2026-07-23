@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
         <PackageVersion>11.3.0.1114</PackageVersion>
         <WarningsNotAsErrors>0612,0618</WarningsNotAsErrors>
         <PackageId>CarinaStudio.AvaloniaEdit</PackageId>
@@ -12,19 +12,13 @@
         <PackageProjectUrl>https://github.com/carina-studio/AvaloniaEdit/</PackageProjectUrl>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <DebugSymbols>False</DebugSymbols>
-        <DebugType>None</DebugType>
-    </PropertyGroup>
-
     <ItemGroup>
         <EmbeddedResource Include="**\*.xshd;**\*.resx;" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)"/>
         <AvaloniaResource Include="**\*.xaml;Assets\*;" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)"/>
-        <PackageReference Include="System.Collections.Immutable" Version="1.6.0" Condition="'$(TargetFramework)' == 'netstandard2.0'"/>
+        <PackageReference Include="Avalonia" />
     </ItemGroup>
 
     <ItemGroup>
@@ -42,11 +36,5 @@
         </EmbeddedResource>
     </ItemGroup>
 
-    <Target Name="ChangeAliasesOfSystemDrawing" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
-        <ItemGroup>
-            <ReferencePath Condition="'%(FileName)' == 'Splat'">
-                <Aliases>SystemDrawing</Aliases>
-            </ReferencePath>
-        </ItemGroup>
-    </Target>
+    
 </Project>
